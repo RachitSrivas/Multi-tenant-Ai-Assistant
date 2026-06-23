@@ -6,7 +6,7 @@ import { deleteDocumentVectors } from "@/lib/ingestion";
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -15,7 +15,7 @@ export async function DELETE(
     }
 
     const tenantId = (session.user as any).tenantId;
-    const documentId = params.id;
+    const { id: documentId } = await params;
 
     // Verify document belongs to tenant
     const document = await prisma.document.findUnique({
