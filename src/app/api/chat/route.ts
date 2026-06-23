@@ -54,7 +54,7 @@ export async function POST(req: NextRequest) {
     }
 
     // B. IP Rate Limiting
-    const ip = req.headers.get("x-forwarded-for") || req.ip || "unknown-ip";
+    const ip = req.headers.get("x-forwarded-for") || "unknown-ip";
     const now = Date.now();
     const rateLimitInfo = rateLimitMap.get(ip);
 

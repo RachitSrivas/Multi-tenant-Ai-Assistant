@@ -16,12 +16,13 @@ export default async function BillingPage() {
 
   if (!tenant) return <div>Tenant not found</div>;
 
-  const isPro = !!(
+  const isPro = Boolean(
     tenant.stripePriceId &&
-    tenant.stripeCurrentPeriodEnd?.getTime()! + 86_400_000 > Date.now()
+    tenant.stripeCurrentPeriodEnd && 
+    tenant.stripeCurrentPeriodEnd.getTime() + 86_400_000 > Date.now()
   );
 
-  const isTrial = !tenant.stripePriceId && tenant.stripeCurrentPeriodEnd && tenant.stripeCurrentPeriodEnd.getTime() > Date.now();
+  const isTrial = Boolean(!tenant.stripePriceId && tenant.stripeCurrentPeriodEnd && tenant.stripeCurrentPeriodEnd.getTime() > Date.now());
   const isExpired = !isPro && !isTrial;
   
   const currentPeriodEnd = tenant.stripeCurrentPeriodEnd ? tenant.stripeCurrentPeriodEnd.toLocaleDateString() : "";
