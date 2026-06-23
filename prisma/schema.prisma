@@ -1,0 +1,88 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Tenant {
+  id                     String   @id @default(cuid())
+  name                   String
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+
+  stripeCustomerId       String?  @unique
+  stripeSubscriptionId   String?  @unique
+  stripePriceId          String?
+  stripeCurrentPeriodEnd DateTime?
+
+  users     User[]
+  bots      Bot[]
+  documents Document[]
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String?
+  role      Role     @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tenantId  String
+  tenant    Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+}
+
+model Bot {
+  id              String   @id @default(cuid())
+  name            String   @default("My Assistant")
+  systemPrompt    String?  @db.Text
+  colorScheme     String   @default("#000000")
+  welcomeMessage  String?
+  avatarUrl       String?
+  allowedDomain   String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  tenantId        String
+  tenant          Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  sessions        ChatSession[]
+}
+
+model Document {
+  id        String   @id @default(cuid())
+  name      String
+  type      String   // e.g. "PDF", "URL", "TEXT"
+  content   String?  @db.Text
+  url       String?
+  status    String   @default("PENDING") // PENDING, PROCESSED, FAILED
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tenantId  String
+  tenant    Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+}
+
+enum Role {
+  USER
+  SUPERADMIN
+}
+
+model ChatSession {
+  id        String   @id @default(cuid())
+  botId     String
+  bot       Bot      @relation(fields: [botId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  messages  ChatMessage[]
+}
+
+model ChatMessage {
+  id            String   @id @default(cuid())
+  sessionId     String
+  session       ChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  role          String   // "user" or "assistant"
+  content       String   @db.Text
+  createdAt     DateTime @default(now())
+}

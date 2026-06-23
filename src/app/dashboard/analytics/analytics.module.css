@@ -1,0 +1,735 @@
+/* ===== KEYFRAME ANIMATIONS ===== */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -400px 0;
+  }
+  100% {
+    background-position: 400px 0;
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.08);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(59, 130, 246, 0.15);
+  }
+}
+
+@keyframes barGrow {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes arcDraw {
+  from {
+    stroke-dashoffset: 283;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes countUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dotPulse {
+  0%, 100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* ===== CONTAINER ===== */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  animation: fadeInUp 0.5s ease-out;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--foreground);
+  margin-bottom: 0;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  color: #71717a;
+  font-size: 1rem;
+  margin-top: 0.25rem;
+}
+
+/* ===== LOADING SKELETON ===== */
+
+.skeletonContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.skeletonGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+}
+
+.skeletonCard {
+  background: rgba(24, 24, 27, 0.6);
+  border: 1px solid var(--surface-border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  height: 140px;
+}
+
+.skeletonBar {
+  background: linear-gradient(
+    90deg,
+    rgba(39, 39, 42, 0.4) 25%,
+    rgba(63, 63, 70, 0.4) 50%,
+    rgba(39, 39, 42, 0.4) 75%
+  );
+  background-size: 800px 100%;
+  animation: shimmer 1.8s infinite ease-in-out;
+  border-radius: 8px;
+}
+
+.skeletonTitle {
+  width: 60%;
+  height: 14px;
+  margin-bottom: 1rem;
+}
+
+.skeletonNumber {
+  width: 40%;
+  height: 32px;
+}
+
+.skeletonChartRow {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.25rem;
+}
+
+.skeletonChartLarge {
+  background: rgba(24, 24, 27, 0.6);
+  border: 1px solid var(--surface-border);
+  border-radius: 16px;
+  height: 320px;
+}
+
+.skeletonChartSmall {
+  background: rgba(24, 24, 27, 0.6);
+  border: 1px solid var(--surface-border);
+  border-radius: 16px;
+  height: 320px;
+}
+
+.skeletonTable {
+  background: rgba(24, 24, 27, 0.6);
+  border: 1px solid var(--surface-border);
+  border-radius: 16px;
+  height: 280px;
+}
+
+/* ===== STAT CARDS ===== */
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+}
+
+.statCard {
+  background: rgba(24, 24, 27, 0.5);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--surface-border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+  animation: fadeInUp 0.5s ease-out backwards;
+}
+
+.statCard:nth-child(1) { animation-delay: 0.05s; }
+.statCard:nth-child(2) { animation-delay: 0.10s; }
+.statCard:nth-child(3) { animation-delay: 0.15s; }
+.statCard:nth-child(4) { animation-delay: 0.20s; }
+
+.statCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  border-radius: 16px 16px 0 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.statCard:nth-child(1)::before {
+  background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+}
+
+.statCard:nth-child(2)::before {
+  background: linear-gradient(90deg, #8b5cf6, #ec4899);
+}
+
+.statCard:nth-child(3)::before {
+  background: linear-gradient(90deg, #06b6d4, #3b82f6);
+}
+
+.statCard:nth-child(4)::before {
+  background: linear-gradient(90deg, #22c55e, #06b6d4);
+}
+
+.statCard:hover {
+  transform: translateY(-3px);
+  border-color: rgba(59, 130, 246, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
+    0 0 48px rgba(59, 130, 246, 0.06);
+}
+
+.statCard:hover::before {
+  opacity: 1;
+}
+
+.statCardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.statCardLabel {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #71717a;
+}
+
+.statCardIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.125rem;
+}
+
+.iconPurple {
+  background: rgba(139, 92, 246, 0.12);
+  color: #a78bfa;
+}
+
+.iconPink {
+  background: rgba(236, 72, 153, 0.12);
+  color: #f472b6;
+}
+
+.iconBlue {
+  background: rgba(59, 130, 246, 0.12);
+  color: #60a5fa;
+}
+
+.iconGreen {
+  background: rgba(34, 197, 94, 0.12);
+  color: #4ade80;
+}
+
+.statCardValue {
+  font-size: 2.25rem;
+  font-weight: 700;
+  line-height: 1;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: countUp 0.5s ease-out backwards;
+  animation-delay: 0.3s;
+}
+
+.statCard:nth-child(2) .statCardValue {
+  background: linear-gradient(135deg, #8b5cf6, #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.statCard:nth-child(3) .statCardValue {
+  background: linear-gradient(135deg, #06b6d4, #3b82f6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.statCard:nth-child(4) .statCardValue {
+  background: linear-gradient(135deg, #22c55e, #06b6d4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.statCardChange {
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  width: fit-content;
+}
+
+.changePositive {
+  color: #4ade80;
+  background: rgba(34, 197, 94, 0.1);
+}
+
+.changeNeutral {
+  color: #71717a;
+  background: rgba(113, 113, 122, 0.1);
+}
+
+/* ===== CHARTS ROW ===== */
+
+.chartsRow {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.25rem;
+  animation: fadeInUp 0.5s ease-out backwards;
+  animation-delay: 0.25s;
+}
+
+/* ===== GLASS CARD (shared) ===== */
+
+.glassCard {
+  background: rgba(24, 24, 27, 0.5);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--surface-border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.glassCard:hover {
+  border-color: rgba(59, 130, 246, 0.2);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+}
+
+.cardTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cardTitleIcon {
+  font-size: 1.125rem;
+}
+
+/* ===== BAR CHART ===== */
+
+.barChart {
+  width: 100%;
+  height: 240px;
+}
+
+.barChartContainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.barChartSvg {
+  width: 100%;
+  flex: 1;
+}
+
+.barRect {
+  transform-origin: bottom;
+  animation: barGrow 0.8s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+  transition: opacity 0.2s ease;
+  cursor: pointer;
+}
+
+.barRect:hover {
+  opacity: 0.85;
+}
+
+.barLabel {
+  fill: #71717a;
+  font-size: 11px;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+}
+
+.barValue {
+  fill: #a1a1aa;
+  font-size: 11px;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+}
+
+.gridLine {
+  stroke: rgba(63, 63, 70, 0.3);
+  stroke-dasharray: 4 4;
+}
+
+.axisLabel {
+  fill: #52525b;
+  font-size: 10px;
+  font-family: 'Inter', sans-serif;
+}
+
+/* ===== DONUT CHART ===== */
+
+.donutChart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.donutSvgWrap {
+  position: relative;
+  width: 180px;
+  height: 180px;
+}
+
+.donutSvg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.donutSegment {
+  fill: none;
+  stroke-width: 20;
+  stroke-linecap: round;
+  transition: stroke-width 0.3s ease, filter 0.3s ease;
+  cursor: pointer;
+}
+
+.donutSegment:hover {
+  stroke-width: 24;
+  filter: brightness(1.2);
+}
+
+.donutCenter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.donutCenterValue {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--foreground);
+  line-height: 1;
+}
+
+.donutCenterLabel {
+  font-size: 0.6875rem;
+  color: #71717a;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 0.25rem;
+}
+
+.donutLegend {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  color: #a1a1aa;
+}
+
+.legendDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.legendValue {
+  font-weight: 600;
+  color: var(--foreground);
+  margin-left: 0.25rem;
+}
+
+/* ===== BOTTOM ROW ===== */
+
+.bottomRow {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 1.25rem;
+  animation: fadeInUp 0.5s ease-out backwards;
+  animation-delay: 0.35s;
+}
+
+/* ===== CONVERSATIONS TABLE ===== */
+
+.conversationsTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.conversationsTable thead th {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #52525b;
+  border-bottom: 1px solid var(--surface-border);
+}
+
+.conversationsTable tbody td {
+  padding: 0.875rem 1rem;
+  font-size: 0.875rem;
+  color: #a1a1aa;
+  border-bottom: 1px solid rgba(39, 39, 42, 0.5);
+  vertical-align: middle;
+}
+
+.conversationsTable tbody tr {
+  transition: background 0.2s ease;
+}
+
+.conversationsTable tbody tr:hover {
+  background: rgba(59, 130, 246, 0.04);
+}
+
+.conversationsTable tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.messageCount {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 24px;
+  padding: 0 0.5rem;
+  border-radius: 6px;
+  background: rgba(59, 130, 246, 0.1);
+  color: #60a5fa;
+  font-weight: 600;
+  font-size: 0.75rem;
+}
+
+.previewText {
+  color: #71717a;
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dateText {
+  color: #52525b;
+  font-size: 0.8125rem;
+  white-space: nowrap;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  color: #52525b;
+  font-size: 0.875rem;
+}
+
+.emptyStateIcon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+/* ===== DOCUMENT STATUS ===== */
+
+.docStatusGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.docStatusCard {
+  background: rgba(24, 24, 27, 0.4);
+  border: 1px solid rgba(39, 39, 42, 0.6);
+  border-radius: 12px;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.docStatusCard:hover {
+  transform: translateY(-1px);
+  border-color: rgba(59, 130, 246, 0.2);
+}
+
+.docStatusIndicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  animation: dotPulse 2s infinite ease-in-out;
+}
+
+.statusProcessed {
+  background: #22c55e;
+  box-shadow: 0 0 8px rgba(34, 197, 94, 0.4);
+  animation: none;
+}
+
+.statusProcessing {
+  background: #f59e0b;
+  box-shadow: 0 0 8px rgba(245, 158, 11, 0.4);
+}
+
+.statusPending {
+  background: #6366f1;
+  box-shadow: 0 0 8px rgba(99, 102, 241, 0.4);
+}
+
+.statusFailed {
+  background: #ef4444;
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.4);
+  animation: none;
+}
+
+.docStatusInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.docStatusLabel {
+  font-size: 0.75rem;
+  color: #71717a;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+}
+
+.docStatusCount {
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: var(--foreground);
+}
+
+/* ===== TOOLTIP ===== */
+
+.tooltip {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(63, 63, 70, 0.5);
+  color: var(--foreground);
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  pointer-events: none;
+  z-index: 50;
+  white-space: nowrap;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 1200px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .chartsRow {
+    grid-template-columns: 1fr;
+  }
+
+  .bottomRow {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .skeletonGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .skeletonChartRow {
+    grid-template-columns: 1fr;
+  }
+
+  .docStatusGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .donutLegend {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
